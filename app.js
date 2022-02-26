@@ -21,7 +21,7 @@ db.once('open',()=>{
 
 
 app.get('/',(req,res)=>{
-  res.send('This is todo_list website')
+  res.render('home')
 })
 
 app.listen(port,()=>{
