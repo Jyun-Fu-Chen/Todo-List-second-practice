@@ -20,6 +20,7 @@ db.once('open',()=>{
   console.log('mongodb connected');
 })
 const Todo = require('./models/todo.js')
+const todo = require("./models/todo.js")
 
 
 
@@ -45,12 +46,27 @@ app.post('/todos',(req,res)=>{
 })
 
 //edit todo page
-
-app.listen(port,()=>{
-  console.log(`localhost:${port} is running`)
+app.get('/todos/:id/edit',(req,res)=>{
+const id = req.params.id
+Todo.findById(id)
+.lean()
+.then(todo=>res.render('edit',({todo})))  
+.catch(error => console.log(error))
+})
+//edit todo
+app.post('/:id/edit',(req,res)=>{
+const id = req.params.id
+const name = req.body.name
+return Todo.findById(id)
+.then(todo=>{
+todo.name = name
+return todo.save()
+})
+.then(()=>res.redirect(`/todos/${id}`))
+.catch(error=>console.log(error))
 })
 
-//single todo page
+//todo detail page
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
   Todo.findById(id)
@@ -58,3 +74,13 @@ app.get('/todos/:id', (req, res) => {
     .then(todo => res.render('detail', ({ todo })))
     .catch(error => console.log(error))
 })
+
+
+
+
+
+app.listen(port,()=>{
+  console.log(`localhost:${port} is running`)
+})
+
+
