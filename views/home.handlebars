@@ -1,1 +1,10 @@
-<h1>this is a todo list page!!</h1>
+<div>
+{{#each todos}}
+<ul>
+<li>
+{{this.name}}
+<a href="/todos/{{this._id}}">detail</a>
+</li>
+</ul>
+  {{/each}}
+</div>

@@ -16,13 +16,33 @@ db.on('error',()=>{
 db.once('open',()=>{
   console.log('mongodb connected');
 })
+const Todo = require('./models/todo.js')
 
 
 
 
+//main page
 app.get('/',(req,res)=>{
-  res.render('home')
+  Todo.find()
+  .lean()
+  .then(todos => res.render('home',({todos})))
+  .catch(error => console.log(error))
 })
+//single todo page
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  Todo.findById(id)
+    .lean()
+    .then(todo => res.render('detail', ({ todo })))
+    .catch(error => console.log(error))
+})
+
+
+//create todo page
+
+
+
+//edit todo page
 
 app.listen(port,()=>{
   console.log(`localhost:${port} is running`)
