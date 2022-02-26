@@ -2,12 +2,12 @@ const express = require("express")
 const port = 3000
 const exphbs = require("express-handlebars")
 const app = express()
-const mongoose = require('mongoose')
 //use express-handlebars
 app.engine("handlebars",exphbs.engine())
 app.set('view engine', 'handlebars')
 app.set('views','./views')
 //set mongoose connection
+const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/todo-list')
 const db = mongoose.connection
 db.on('error',()=>{
