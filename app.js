@@ -65,7 +65,6 @@ return todo.save()
 .then(()=>res.redirect(`/todos/${id}`))
 .catch(error=>console.log(error))
 })
-
 //todo detail page
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
@@ -74,6 +73,15 @@ app.get('/todos/:id', (req, res) => {
     .then(todo => res.render('detail', ({ todo })))
     .catch(error => console.log(error))
 })
+//delete function
+app.post('/todos/:id/delete',(req,res)=>{
+  const id = req.params.id
+  Todo.findById(id)
+  .then(todo=>todo.remove())
+  .then(()=>res.redirect('/'))
+  .catch(error=>console.log(error))
+})
+
 
 
 
