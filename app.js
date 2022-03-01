@@ -29,6 +29,7 @@ const todo = require("./models/todo.js")
 app.get('/',(req,res)=>{
   Todo.find()
   .lean()
+  .sort({isDone:'desc'})
   .then(todos => res.render('home',({todos})))
   .catch(error => console.log(error))
 })
@@ -56,10 +57,11 @@ Todo.findById(id)
 //edit todo
 app.post('/:id/edit',(req,res)=>{
 const id = req.params.id
-const name = req.body.name
+const {name,isDone} = req.body
 return Todo.findById(id)
 .then(todo=>{
 todo.name = name
+todo.isDone = isDone==='on'
 return todo.save()
 })
 .then(()=>res.redirect(`/todos/${id}`))

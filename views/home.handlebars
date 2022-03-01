@@ -3,6 +3,7 @@
 {{#each todos}}
 <ul>
 <li>
+  <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}}>
 {{this.name}}
 <a href="/todos/{{this._id}}">detail</a>
 <a href="/todos/{{this._id}}/edit">edit</a>
