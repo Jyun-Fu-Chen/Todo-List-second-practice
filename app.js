@@ -2,6 +2,9 @@ const express = require("express")
 const port = 3000
 const exphbs = require("express-handlebars")
 const app = express()
+//method-override
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 //bodyParer
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: true}))
@@ -55,7 +58,7 @@ Todo.findById(id)
 .catch(error => console.log(error))
 })
 //edit todo
-app.post('/:id/edit',(req,res)=>{
+app.put('/todos/:id',(req,res)=>{
 const id = req.params.id
 const {name,isDone} = req.body
 return Todo.findById(id)
@@ -76,7 +79,7 @@ app.get('/todos/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 //delete function
-app.post('/todos/:id/delete',(req,res)=>{
+app.delete('/todos/:id',(req,res)=>{
   const id = req.params.id
   Todo.findById(id)
   .then(todo=>todo.remove())
